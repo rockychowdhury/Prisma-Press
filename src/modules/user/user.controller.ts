@@ -2,9 +2,9 @@ import { NextFunction, Request, RequestHandler, Response } from "express"
 import { userService } from "./user.service";
 import status from "http-status";
 import { sendResponse } from "../../utils/sendResponse";
-import { cacheAsync } from "../../utils/catchAsync";
+import { catchAsync } from "../../utils/catchAsync";
 
-const registerUser = cacheAsync(async (req: Request, res: Response, next: NextFunction) => {
+const registerUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
     const user = userService.registerUserIntoDB(payload);
     sendResponse(res,
@@ -25,7 +25,7 @@ const registerUser = cacheAsync(async (req: Request, res: Response, next: NextFu
 // };
 
 
-const getMyProfile = cacheAsync(async (req: Request, res: Response, next: NextFunction) => {
+const getMyProfile = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const profile = await userService.getMyProfileFromDB("1")
     sendResponse(res,
         {
