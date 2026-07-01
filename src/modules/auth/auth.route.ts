@@ -1,4 +1,12 @@
-//login user
+import { Router } from "express";
+import { authController } from "./auth.controller";
 
 
-//refresh token
+
+const router = Router();
+
+router.post("/login",authController.loginUser)
+
+
+
+export const authRoutes = router;

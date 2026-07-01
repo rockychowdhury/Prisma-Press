@@ -3,6 +3,8 @@ import cors from "cors"
 import config from "./config";
 import cookieParser from "cookie-parser";
 import status from "http-status";
+import { userRoute } from "./modules/user/user.route";
+import { authRoutes } from "./modules/auth/auth.route";
 
 
 const app:Application = express();
@@ -30,7 +32,7 @@ app.get('/',(req,res)=>{
     )
 })
 
-
-
+app.use('/api/users',userRoute);
+app.use('/api/auth',authRoutes);
 
 export default app;
