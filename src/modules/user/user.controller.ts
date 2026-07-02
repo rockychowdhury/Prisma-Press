@@ -50,7 +50,7 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response, next:Next
     sendResponse(res,{
         success:true,
         statusCode:status.OK,
-        message:"Profile Updated successfull",
+        message:"Profile Updated successful",
         data:{
             updatedUser
         }
