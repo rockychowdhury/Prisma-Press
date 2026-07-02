@@ -7,10 +7,10 @@ const router = Router();
 router.get('/', postController.getPostList);
 router.get('/stats', postController.generateUserPostStats);
 router.get('/my-posts', postController.getMyPosts);
-router.get('/:id', postController.getPostDetails);
+router.get('/:postId', postController.getPostDetails);
 router.post('/', postController.createPost);
-router.patch('/:id', postController.updatePost);
-router.delete('/:id', postController.deletePost);
+router.patch('/:postId', postController.updatePost);
+router.delete('/:postId', postController.deletePost);
 
 
 
