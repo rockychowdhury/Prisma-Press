@@ -31,7 +31,7 @@ export const auth = (...requiredRoles: Role[]) => {
             req.headers.authorization?.startsWith("Bearer ") ?
                 req.headers.authorization?.split(" ")[1] :
                 req.headers.authorization;
-
+        // console.log("Authenticating user ", token);
         if (!token) {
             throw new Error("You are not Logged in.");
         }
@@ -41,7 +41,7 @@ export const auth = (...requiredRoles: Role[]) => {
         if (!verifyToken.success) {
             throw new Error(verifyToken.error);
         }
-
+        // console.log("User Authenticating ", verifyToken);
         const { email, name, role, id } = verifyToken.data as JwtPayload;
 
         if (requiredRoles.length && !requiredRoles.includes(role)) {

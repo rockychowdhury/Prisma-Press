@@ -6,12 +6,13 @@ export const catchAsync = (fn: RequestHandler) => {
         try {
             await fn(req, res, next);
         } catch (error) {
+            console.log("error from catchAsync");
             res.status(status.INTERNAL_SERVER_ERROR).json(
                 {
                     success: false,
                     statusCode: status.INTERNAL_SERVER_ERROR,
-                    message: "Failed to Create user",
-                    error : (error as Error).message
+                    message: (error as Error).message,
+                    error : error
                 }
             )
         }
