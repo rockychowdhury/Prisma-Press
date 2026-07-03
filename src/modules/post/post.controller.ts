@@ -61,23 +61,60 @@ const getMyPosts = catchAsync(async (req: Request, res: Response, next: NextFunc
 });
 
 
-const generateUserPostStats = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-
+const generatePostStats = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const stats = await postService.generatePostStats();
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Admin stats generated",
+        data: {
+            stats
+        }
+    })
 });
 
 
 
 const updatePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+    const postId = req.params.postId;
+    if (!postId) {
+        throw new Error("id not provided");
+    }
+    const authorId = req.user?.id;
+    const isAdmin = req.user?.role === 'ADMIN';
+    const updatedPost = await postService.updatePost(payload, postId as string, authorId as string, isAdmin);
 
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Post updated",
+        data: updatedPost
+    })
 });
-const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
+
+const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const postId = req.params.postId;
+    const authorId = req.user?.id;
+    const isAdmin = req.user?.role === 'ADMIN';
+    if (!postId) {
+        throw new Error("id not provided");
+    }
+    await postService.deletePost(postId as string, authorId as string, isAdmin);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.NO_CONTENT,
+        message: "Post deleted",
+        data: {}
+    })
 });
 
 
 export const postController = {
     getAllPosts,
-    generateUserPostStats,
+    generatePostStats,
     getMyPosts,
     getPostById,
     createPost,

@@ -6,7 +6,7 @@ import { catchAsync } from "../../utils/catchAsync";
 
 const registerUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
-    const user = userService.registerUserIntoDB(payload);
+    const user = await userService.registerUserIntoDB(payload);
     sendResponse(res,
         {
             success: true,
