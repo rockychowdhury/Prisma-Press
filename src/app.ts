@@ -9,6 +9,7 @@ import { postRoutes } from "./modules/post/post.route";
 import { commentRoutes } from "./modules/comment/comment.route";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
+import { subscriptionRoutes } from "./modules/subscription/subscription.route";
 
 
 const app: Application = express();
@@ -20,6 +21,10 @@ app.use(cors(
         credentials: true,
     }
 ));
+
+app.post("/api/subscription/webhook",express.raw({type: 'application/json'}),()=>{
+    
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,7 +45,7 @@ app.use('/api/users', userRoute);
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
-
+app.use('/api/subscription', subscriptionRoutes);
 
 app.use(notFound);
 
