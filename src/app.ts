@@ -7,26 +7,28 @@ import { userRoute } from "./modules/user/user.route";
 import { authRoutes } from "./modules/auth/auth.route";
 import { postRoutes } from "./modules/post/post.route";
 import { commentRoutes } from "./modules/comment/comment.route";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
+import { notFound } from "./middlewares/notFound";
 
 
-const app:Application = express();
+const app: Application = express();
 
 //middlewares
 app.use(cors(
     {
-        origin:config.app_url,
+        origin: config.app_url,
         credentials: true,
     }
 ));
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.status(status.OK).send(
         {
-            message:"Server is Healthy",
+            message: "Server is Healthy",
             from: "Prisma Press",
             author: "Rocky Chowdhury",
             time: new Date(),
@@ -34,9 +36,14 @@ app.get('/',(req,res)=>{
     )
 })
 
-app.use('/api/users',userRoute);
-app.use('/api/auth',authRoutes);
-app.use('/api/posts',postRoutes);
-app.use('/api/comments',commentRoutes);
+app.use('/api/users', userRoute);
+app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/comments', commentRoutes);
+
+
+app.use(notFound);
+
+app.use(globalErrorHandler);
 
 export default app;
